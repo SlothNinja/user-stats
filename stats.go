@@ -39,6 +39,24 @@ type Stats struct {
 	UpdatedAt time.Time
 }
 
+func (s *Stats) Load(ps []datastore.Property) error {
+	return datastore.LoadStruct(s, ps)
+}
+
+func (s *Stats) Save() ([]datastore.Property, error) {
+	t := time.Now()
+	if s.CreatedAt.IsZero() {
+		s.CreatedAt = t
+	}
+	s.UpdatedAt = t
+	return datastore.SaveStruct(s)
+}
+
+func (s *Stats) LoadKey(k *datastore.Key) error {
+	s.Key = k
+	return nil
+}
+
 type MultiStats []*Stats
 
 func (s *Stats) Average() time.Duration {
