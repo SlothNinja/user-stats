@@ -19,6 +19,14 @@ const (
 	homePath = "/"
 )
 
+type Client struct {
+	*datastore.Client
+}
+
+func NewClient(dsClient *datastore.Client) Client {
+	return Client{dsClient}
+}
+
 func From(c *gin.Context) (s *Stats) {
 	s, _ = c.Value(statsKey).(*Stats)
 	return
@@ -139,26 +147,16 @@ func singleError(err error) error {
 	return err
 }
 
-func ByUser(c *gin.Context, u *user.User) (*Stats, error) {
-	dsClient, err := datastore.NewClient(c, "")
-	if err != nil {
-		return nil, err
-	}
-
+func (client Client) ByUser(c *gin.Context, u *user.User) (*Stats, error) {
 	s := New(c, u)
-	err = dsClient.Get(c, s.Key, s)
+	err := client.Get(c, s.Key, s)
 	if err == datastore.ErrNoSuchEntity {
 		return s, nil
 	}
 	return s, err
 }
 
-func ByUsers(c *gin.Context, us user.Users) ([]*Stats, error) {
-	dsClient, err := datastore.NewClient(c, "")
-	if err != nil {
-		return nil, err
-	}
-
+func (client Client) ByUsers(c *gin.Context, us user.Users) ([]*Stats, error) {
 	l := len(us)
 	ss := make([]*Stats, l)
 	ks := make([]*datastore.Key, l)
@@ -167,7 +165,7 @@ func ByUsers(c *gin.Context, us user.Users) ([]*Stats, error) {
 		ks[i] = ss[i].Key
 	}
 
-	err = dsClient.GetMulti(c, ks, ss)
+	err := client.GetMulti(c, ks, ss)
 	if err == nil {
 		return ss, nil
 	}
@@ -195,7 +193,7 @@ func ByUsers(c *gin.Context, us user.Users) ([]*Stats, error) {
 	return nil, me
 }
 
-func Fetch(getUser func(*gin.Context) *user.User) gin.HandlerFunc {
+func (client Client) Fetch(getUser func(*gin.Context) *user.User) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		log.Debugf("Entering")
 		defer log.Debugf("Exiting")
@@ -212,13 +210,13 @@ func Fetch(getUser func(*gin.Context) *user.User) gin.HandlerFunc {
 			return
 		}
 
-		if s, err := ByUser(c, u); err != nil {
+		s, err := client.ByUser(c, u)
+		if err != nil {
 			restful.AddErrorf(c, err.Error())
 			c.AbortWithError(http.StatusInternalServerError, err)
-		} else {
-			log.Debugf("stats: %#v", s)
-			With(c, s)
+			return
 		}
+		With(c, s)
 	}
 }
 
