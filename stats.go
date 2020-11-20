@@ -193,7 +193,7 @@ func (client Client) ByUsers(c *gin.Context, us user.Users) ([]*Stats, error) {
 	return nil, me
 }
 
-func (client Client) Fetch(getUser func(*gin.Context) *user.User) gin.HandlerFunc {
+func (client Client) Fetch(getUser func(*gin.Context) (*user.User, error)) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		log.Debugf("Entering")
 		defer log.Debugf("Exiting")
@@ -202,7 +202,10 @@ func (client Client) Fetch(getUser func(*gin.Context) *user.User) gin.HandlerFun
 			return
 		}
 
-		u := getUser(c)
+		u, err := getUser(c)
+		if err != nil {
+			log.Debugf(err.Error())
+		}
 		log.Debugf("u: %#v", u)
 		if u == nil {
 			restful.AddErrorf(c, "missing user.")
