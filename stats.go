@@ -20,11 +20,15 @@ const (
 )
 
 type Client struct {
-	*datastore.Client
+	User user.Client
+	DS   *datastore.Client
 }
 
-func NewClient(dsClient *datastore.Client) Client {
-	return Client{dsClient}
+func NewClient(userClient user.Client, dsClient *datastore.Client) Client {
+	return Client{
+		User: userClient,
+		DS:   dsClient,
+	}
 }
 
 func From(c *gin.Context) (s *Stats) {
@@ -149,7 +153,7 @@ func singleError(err error) error {
 
 func (client Client) ByUser(c *gin.Context, u *user.User) (*Stats, error) {
 	s := New(c, u)
-	err := client.Get(c, s.Key, s)
+	err := client.DS.Get(c, s.Key, s)
 	if err == datastore.ErrNoSuchEntity {
 		return s, nil
 	}
@@ -165,7 +169,7 @@ func (client Client) ByUsers(c *gin.Context, us user.Users) ([]*Stats, error) {
 		ks[i] = ss[i].Key
 	}
 
-	err := client.GetMulti(c, ks, ss)
+	err := client.DS.GetMulti(c, ks, ss)
 	if err == nil {
 		return ss, nil
 	}
@@ -193,34 +197,32 @@ func (client Client) ByUsers(c *gin.Context, us user.Users) ([]*Stats, error) {
 	return nil, me
 }
 
-func (client Client) Fetch(getUser func(*gin.Context) (*user.User, error)) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		log.Debugf("Entering")
-		defer log.Debugf("Exiting")
+func (client Client) Fetch(c *gin.Context) {
+	log.Debugf("Entering")
+	defer log.Debugf("Exiting")
 
-		if From(c) != nil {
-			return
-		}
-
-		u, err := getUser(c)
-		if err != nil {
-			log.Debugf(err.Error())
-		}
-		log.Debugf("u: %#v", u)
-		if u == nil {
-			restful.AddErrorf(c, "missing user.")
-			c.AbortWithError(http.StatusInternalServerError, fmt.Errorf("missing user."))
-			return
-		}
-
-		s, err := client.ByUser(c, u)
-		if err != nil {
-			restful.AddErrorf(c, err.Error())
-			c.AbortWithError(http.StatusInternalServerError, err)
-			return
-		}
-		With(c, s)
+	if From(c) != nil {
+		return
 	}
+
+	cu, err := client.User.Current(c)
+	if err != nil {
+		log.Debugf(err.Error())
+	}
+	log.Debugf("u: %#v", cu)
+	if cu == nil {
+		restful.AddErrorf(c, "missing user.")
+		c.AbortWithError(http.StatusInternalServerError, fmt.Errorf("missing user."))
+		return
+	}
+
+	s, err := client.ByUser(c, cu)
+	if err != nil {
+		restful.AddErrorf(c, err.Error())
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+	With(c, s)
 }
 
 func Fetched(c *gin.Context) *Stats {
