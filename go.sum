@@ -61,8 +61,8 @@ github.com/SlothNinja/restful v1.0.0 h1:Qcozj0/B5wLSAOec2qqphCXmAiBW3yr3LzEcYEaJ
 github.com/SlothNinja/restful v1.0.0/go.mod h1:0Pm+cPyoDezRedyM2X9rmP9l/sg1rgYKTaKnw1wRj9A=
 github.com/SlothNinja/sn v1.0.1 h1:TWvPI9bpu8zb2//Q/kai2lkXV6iAiVxsbQ1Ow2EcOOM=
 github.com/SlothNinja/sn v1.0.1/go.mod h1:QZhUpT7vfAWLbrarRdrk2cm1jzfo76l9Py1760lJ/6M=
-github.com/SlothNinja/user v1.0.10 h1:ZOGy2FqkawQcFH0u0w9BPmCijDKQyGYygTIn/l9AUTA=
-github.com/SlothNinja/user v1.0.10/go.mod h1:il7/nZtXMCZ/+q4IHCtedmVgwJoy0heFHn+ixMuBHLc=
+github.com/SlothNinja/user v1.0.12 h1:4BYOVdyQdlKf6WbHn/NxOFT+UEXcQvNpfXL61RmR1VU=
+github.com/SlothNinja/user v1.0.12/go.mod h1:il7/nZtXMCZ/+q4IHCtedmVgwJoy0heFHn+ixMuBHLc=
 github.com/boj/redistore v0.0.0-20180917114910-cd5dcc76aeff/go.mod h1:+RTT1BOk5P97fT2CiHkbFQwkK3mjsFAP6zCYV2aXtjw=
 github.com/bradfitz/gomemcache v0.0.0-20190329173943-551aad21a668/go.mod h1:H0wQNHz2YrLsuXOZozoeDmnHXkNCRmMW0gwFWDfEZDA=
 github.com/bradleypeabody/gorilla-sessions-memcache v0.0.0-20181103040241-659414f458e1/go.mod h1:dkChI7Tbtx7H1Tj7TqGSZMOeGpMP5gLHtjroHd4agiI=
@@ -471,6 +471,8 @@ golang.org/x/tools v0.0.0-20201201161351-ac6f37ff4c2a/go.mod h1:emZCQorbCU4vsT4f
 golang.org/x/tools v0.0.0-20201208233053-a543418bbed2/go.mod h1:emZCQorbCU4vsT4fOWvOPXz4eW1wZW4PmDk9uLelYpA=
 golang.org/x/tools v0.0.0-20201230224404-63754364767c h1:xx3+TTG3yS1I6Ola5Kapxr5vZu85vKkcwKyV6ke9fHA=
 golang.org/x/tools v0.0.0-20201230224404-63754364767c/go.mod h1:emZCQorbCU4vsT4fOWvOPXz4eW1wZW4PmDk9uLelYpA=
+golang.org/x/tools v0.0.0-20210101214203-2dba1e4ea05c h1:dS09fXwOFF9cXBnIzZexIuUBj95U1NyQjkEhkgidDow=
+golang.org/x/tools v0.0.0-20210101214203-2dba1e4ea05c/go.mod h1:emZCQorbCU4vsT4fOWvOPXz4eW1wZW4PmDk9uLelYpA=
 golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 golang.org/x/xerrors v0.0.0-20191011141410-1b5146add898/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543 h1:E7g+9GITq07hpfrRu66IVDexMakfv52eLZ2CXBWiKr4=
