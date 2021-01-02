@@ -61,8 +61,8 @@ github.com/SlothNinja/restful v1.0.0 h1:Qcozj0/B5wLSAOec2qqphCXmAiBW3yr3LzEcYEaJ
 github.com/SlothNinja/restful v1.0.0/go.mod h1:0Pm+cPyoDezRedyM2X9rmP9l/sg1rgYKTaKnw1wRj9A=
 github.com/SlothNinja/sn v1.0.1 h1:TWvPI9bpu8zb2//Q/kai2lkXV6iAiVxsbQ1Ow2EcOOM=
 github.com/SlothNinja/sn v1.0.1/go.mod h1:QZhUpT7vfAWLbrarRdrk2cm1jzfo76l9Py1760lJ/6M=
-github.com/SlothNinja/user v1.0.13 h1:Cv5SApXd+mmIHZHo4K4Z+G4MVapUJgdIoKOSWuDz9JU=
-github.com/SlothNinja/user v1.0.13/go.mod h1:il7/nZtXMCZ/+q4IHCtedmVgwJoy0heFHn+ixMuBHLc=
+github.com/SlothNinja/user v1.0.14 h1:UO1B1MbKMpzjUXXN2M6gqHG43+EKEyRmnpXWCKtXz0k=
+github.com/SlothNinja/user v1.0.14/go.mod h1:il7/nZtXMCZ/+q4IHCtedmVgwJoy0heFHn+ixMuBHLc=
 github.com/boj/redistore v0.0.0-20180917114910-cd5dcc76aeff/go.mod h1:+RTT1BOk5P97fT2CiHkbFQwkK3mjsFAP6zCYV2aXtjw=
 github.com/bradfitz/gomemcache v0.0.0-20190329173943-551aad21a668/go.mod h1:H0wQNHz2YrLsuXOZozoeDmnHXkNCRmMW0gwFWDfEZDA=
 github.com/bradleypeabody/gorilla-sessions-memcache v0.0.0-20181103040241-659414f458e1/go.mod h1:dkChI7Tbtx7H1Tj7TqGSZMOeGpMP5gLHtjroHd4agiI=
