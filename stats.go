@@ -8,8 +8,10 @@ import (
 	"cloud.google.com/go/datastore"
 	"github.com/SlothNinja/log"
 	"github.com/SlothNinja/restful"
+	"github.com/SlothNinja/sn"
 	"github.com/SlothNinja/user"
 	"github.com/gin-gonic/gin"
+	"github.com/patrickmn/go-cache"
 )
 
 const (
@@ -20,14 +22,14 @@ const (
 )
 
 type Client struct {
-	User user.Client
-	DS   *datastore.Client
+	*sn.Client
+	User *user.Client
 }
 
-func NewClient(userClient user.Client, dsClient *datastore.Client) Client {
-	return Client{
-		User: userClient,
-		DS:   dsClient,
+func NewClient(userClient *user.Client, dsClient *datastore.Client, logger *log.Logger, mcache *cache.Cache) *Client {
+	return &Client{
+		Client: sn.NewClient(dsClient, logger, mcache, nil),
+		User:   userClient,
 	}
 }
 
@@ -198,8 +200,8 @@ func (client Client) ByUsers(c *gin.Context, us user.Users) ([]*Stats, error) {
 }
 
 func (client Client) Fetch(c *gin.Context) {
-	log.Debugf("Entering")
-	defer log.Debugf("Exiting")
+	client.Log.Debugf("Entering")
+	defer client.Log.Debugf("Exiting")
 
 	if From(c) != nil {
 		return
@@ -207,9 +209,9 @@ func (client Client) Fetch(c *gin.Context) {
 
 	cu, err := client.User.Current(c)
 	if err != nil {
-		log.Debugf(err.Error())
+		client.Log.Debugf(err.Error())
 	}
-	log.Debugf("u: %#v", cu)
+	client.Log.Debugf("u: %#v", cu)
 	if cu == nil {
 		restful.AddErrorf(c, "missing user.")
 		c.AbortWithError(http.StatusInternalServerError, fmt.Errorf("missing user."))
